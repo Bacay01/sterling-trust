@@ -1,0 +1,97 @@
+import { prisma } from "@/lib/prisma";
+
+const CURRENCY_LOCALES = { TRY: "tr-TR", USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
+
+function formatMoney(amount, currency = "TRY") {
+  const locale = CURRENCY_LOCALES[currency] || "tr-TR";
+  return new Intl.NumberFormat(locale, { style: "currency", currency }).format(Number(amount));
+}
+
+function formatDate(date) {
+  return new Date(date).toLocaleDateString("tr-TR", { month: "short", day: "numeric", year: "numeric" });
+}
+
+function formatTime(date) {
+  return new Date(date).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+}
+
+function StatCard({ label, value }) {
+  return (
+    <div className="bg-surface border border-border rounded-xl p-5">
+      <p className="text-sm text-text-secondary">{label}</p>
+      <p className="mt-2 text-3xl font-semibold text-text">{value}</p>
+    </div>
+  );
+}
+
+export default async function AdminOverviewPage() {
+  const [userCount, accountCount, cardCount, txnCount, accounts, recentUsers, pendingTransfers] = await Promise.all([
+    prisma.user.count(),
+    prisma.account.count(),
+    prisma.creditCard.count(),
+    prisma.transaction.count(),
+    prisma.account.findMany({ select: { balance: true } }),
+    prisma.user.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      select: { id: true, name: true, email: true, createdAt: true },
+    }),
+    prisma.pendingTransfer.findMany({
+      where: { status: "pending", expiresAt: { gt: new Date() } },
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
+
+  const totalBalance = accounts.reduce((sum, a) => sum + Number(a.balance), 0);
+
+  return (
+    <div>
+      <h1 className="text-2xl font-bold text-navy">Overview</h1>
+
+      <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <StatCard label="Users" value={userCount} />
+        <StatCard label="Accounts" value={accountCount} />
+        <StatCard label="Credit cards" value={cardCount} />
+        <StatCard label="Transactions" value={txnCount} />
+      </div>
+
+      <div className="mt-4">
+        <StatCard label="Total balance across all accounts" value={formatMoney(totalBalance)} />
+      </div>
+
+      {pendingTransfers.length > 0 && (
+        <div className="mt-8 bg-surface border border-border rounded-lg">
+          <h2 className="px-5 py-4 text-lg font-semibold text-navy border-b border-border">
+            Pending transfer verification codes
+          </h2>
+          {pendingTransfers.map((p) => (
+            <div key={p.id} className="px-5 py-4 flex items-center justify-between border-b border-border last:border-b-0">
+              <div>
+                <p className="text-sm text-text">
+                  {p.userName} — {formatMoney(p.amount, p.currency)} to {p.toAccountName || p.toAccountNumber}
+                </p>
+                <p className="text-xs text-text-secondary mt-0.5">
+                  From •••• {p.fromAccountNumber.slice(-4)} · requested {formatTime(p.createdAt)} · expires {formatTime(p.expiresAt)}
+                </p>
+              </div>
+              <p className="text-2xl font-bold tracking-[0.3em] text-primary">{p.otpCode}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="mt-8 bg-surface border border-border rounded-lg">
+        <h2 className="px-5 py-4 text-lg font-semibold text-navy border-b border-border">Recent signups</h2>
+        {recentUsers.map((u) => (
+          <div key={u.id} className="px-5 py-4 flex items-center justify-between border-b border-border last:border-b-0">
+            <div>
+              <p className="text-sm text-text">{u.name}</p>
+              <p className="text-xs text-text-secondary mt-0.5">{u.email}</p>
+            </div>
+            <p className="text-xs text-text-secondary">{formatDate(u.createdAt)}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
