@@ -3,18 +3,18 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const CURRENCY_LOCALES = { TRY: "tr-TR", USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
+const CURRENCY_LOCALES = { USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
 
-function formatMoney(amount, currency = "TRY") {
-  const locale = CURRENCY_LOCALES[currency] || "tr-TR";
+function formatMoney(amount, currency = "USD") {
+  const locale = CURRENCY_LOCALES[currency] || "en-US";
   return new Intl.NumberFormat(locale, { style: "currency", currency }).format(Number(amount));
 }
 
 function formatDate(date) {
-  return new Date(date).toLocaleDateString("tr-TR", { month: "short", day: "numeric", year: "numeric" });
+  return new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
-export default function AdminTransactionHistory({ accountId, transactions, currency = "TRY" }) {
+export default function AdminTransactionHistory({ accountId, transactions, currency = "USD" }) {
   const router = useRouter();
   const [type, setType] = useState("credit");
   const [amount, setAmount] = useState("");

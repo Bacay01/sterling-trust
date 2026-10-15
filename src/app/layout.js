@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Anadolu-Bank",
-  description: "Secure, simple digital banking built for modern Türkiye.",
+  title: "Sterling Trust",
+  description: "Secure, simple digital banking built for modern America.",
 };
 
 export default function RootLayout({ children }) {

@@ -3,11 +3,11 @@
 import { useState } from "react";
 import FrozenNoticeToast, { useFrozenNotice } from "@/components/FrozenNoticeToast";
 
-const CURRENCY_LOCALES = { TRY: "tr-TR", USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
-const CURRENCY_SYMBOLS = { TRY: "₺", USD: "$", GBP: "£", EUR: "€" };
+const CURRENCY_LOCALES = { USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
+const CURRENCY_SYMBOLS = { USD: "$", GBP: "£", EUR: "€" };
 
-function formatMoney(amount, currency = "TRY") {
-  const locale = CURRENCY_LOCALES[currency] || "tr-TR";
+function formatMoney(amount, currency = "USD") {
+  const locale = CURRENCY_LOCALES[currency] || "en-US";
   return new Intl.NumberFormat(locale, { style: "currency", currency }).format(Number(amount));
 }
 
@@ -264,7 +264,7 @@ export default function TransferForm({ accounts, frozenNotice }) {
         <label className="block mt-5 text-xs font-bold tracking-wide text-text-secondary uppercase">Amount</label>
         <div className="mt-2 relative">
           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text font-semibold">
-            {CURRENCY_SYMBOLS[fromAccount?.currency] || "₺"}
+            {CURRENCY_SYMBOLS[fromAccount?.currency] || "$"}
           </span>
           <input
             type="number"

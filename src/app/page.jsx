@@ -39,8 +39,8 @@ export default async function LandingPage() {
       {/* Top nav */}
       <header className="max-w-6xl mx-auto flex items-center justify-between px-6 py-6">
         <div className="flex items-center gap-2">
-          <Image src="/logo-blue.png" alt="Anadolu-Bank logo" width={32} height={32} />
-          <span className="font-semibold text-navy">Anadolu-Bank</span>
+          <Image src="/logo-blue.png" alt="Sterling Trust logo" width={32} height={32} />
+          <span className="font-semibold text-navy">Sterling Trust</span>
         </div>
         <nav className="hidden md:flex items-center gap-1 bg-surface border border-border rounded-full px-2 py-2 shadow-sm">
           <a href="#features" className="px-4 py-1.5 text-sm text-text-secondary hover:text-navy rounded-full">Features</a>
@@ -48,7 +48,7 @@ export default async function LandingPage() {
         </nav>
         <div className="flex items-center gap-3">
           <Link href="/login" className="hidden sm:inline text-sm font-medium text-navy">Sign in</Link>
-          <Link href="/signup" className="rounded-full bg-navy text-white text-sm font-medium px-5 py-2.5 hover:bg-primary-dark transition">
+          <Link href="/signup" className="rounded-full bg-primary text-white text-sm font-medium px-5 py-2.5 hover:bg-primary-dark transition">
             Get started
           </Link>
         </div>
@@ -58,15 +58,15 @@ export default async function LandingPage() {
       <section className="max-w-6xl mx-auto px-6 pt-6 pb-16 grid md:grid-cols-2 gap-10 items-center">
         <div>
           <h1 className="text-5xl font-bold text-navy leading-[1.1]">
-            Banking built for <br /> modern Türkiye
+            Banking built for <br /> modern America
           </h1>
           <p className="mt-5 text-text-secondary max-w-md">
-            Anadolu-Bank brings secure, simple digital banking to everyone —
-            manage accounts, send money, and track every lira in real time.
+            Sterling Trust brings secure, simple digital banking to everyone —
+            manage accounts, send money, and track every dollar in real time.
           </p>
           <Link
             href="/signup"
-            className="inline-block mt-8 rounded-full bg-navy text-white font-medium px-7 py-3.5 hover:bg-primary-dark transition"
+            className="inline-block mt-8 rounded-full bg-primary text-white font-medium px-7 py-3.5 hover:bg-primary-dark transition"
           >
             Open an account →
           </Link>
@@ -74,7 +74,7 @@ export default async function LandingPage() {
         <div className="relative w-full aspect-[4/3] rounded-[2.5rem] overflow-hidden">
           <Image
             src="/landing-hero.jpeg"
-            alt="Customer using the Anadolu-Bank app"
+            alt="Customer using the Sterling Trust app"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover"
@@ -116,7 +116,7 @@ export default async function LandingPage() {
           <div className="relative mt-10 w-full md:w-80 md:absolute md:right-10 md:top-1/2 md:-translate-y-1/2 aspect-[4/3] rounded-3xl overflow-hidden">
             <Image
               src="/landing-save.jpeg"
-              alt="Customer saving with Anadolu-Bank"
+              alt="Customer saving with Sterling Trust"
               fill
               sizes="(min-width: 768px) 320px, 100vw"
               className="object-cover"
@@ -181,7 +181,7 @@ export default async function LandingPage() {
             </div>
             <Link
               href="/signup"
-              className="rounded-full bg-navy text-white text-sm font-medium px-5 py-2.5 hover:bg-primary-dark transition shrink-0"
+              className="rounded-full bg-primary text-white text-sm font-medium px-5 py-2.5 hover:bg-primary-dark transition shrink-0"
             >
               Learn more
             </Link>
@@ -194,17 +194,17 @@ export default async function LandingPage() {
         <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-4 gap-10">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <Image src="/logo-white.png" alt="Anadolu-Bank logo" width={28} height={28} />
-              <span className="font-semibold text-white">Anadolu-Bank</span>
+              <Image src="/logo-white.png" alt="Sterling Trust logo" width={28} height={28} />
+              <span className="font-semibold text-white">Sterling Trust</span>
             </div>
-            <p className="text-sm text-white/50">Digital banking built for modern Türkiye.</p>
+            <p className="text-sm text-white/50">Digital banking built for modern America.</p>
           </div>
           <div>
             <p className="text-white font-medium mb-3 text-sm">Company</p>
             <ul className="space-y-2 text-sm text-white/60">
               <li>About</li>
               <li>Careers</li>
-              <li><a href="mailto:management@anadolupaybank.com" className="hover:text-white transition">management@anadolupaybank.com</a></li>
+              <li><a href="mailto:management@sterlingtrustpaybank.com" className="hover:text-white transition">management@sterlingtrustpaybank.com</a></li>
             </ul>
           </div>
           <div>
@@ -224,7 +224,7 @@ export default async function LandingPage() {
           </div>
         </div>
         <div className="border-t border-white/10 py-6 text-center text-xs text-white/40">
-          © {new Date().getFullYear()} Anadolu-Bank. Portfolio demo project — not a real bank.
+          © {new Date().getFullYear()} Sterling Trust. Portfolio demo project — not a real bank.
         </div>
       </footer>
     </div>

@@ -3,6 +3,12 @@ import { prisma } from "@/lib/prisma";
 import AdminUserEditForm from "@/components/admin/AdminUserEditForm";
 import AdminAccountRow from "@/components/admin/AdminAccountRow";
 import AdminCreditCardRow from "@/components/admin/AdminCreditCardRow";
+import AdminLoanRow from "@/components/admin/AdminLoanRow";
+import AdminAddLoanForm from "@/components/admin/AdminAddLoanForm";
+import AdminSavingsGoalRow from "@/components/admin/AdminSavingsGoalRow";
+import AdminAddSavingsGoalForm from "@/components/admin/AdminAddSavingsGoalForm";
+import AdminInvestmentRow from "@/components/admin/AdminInvestmentRow";
+import AdminAddInvestmentForm from "@/components/admin/AdminAddInvestmentForm";
 
 export default async function AdminUserDetailPage({ params }) {
   const { id } = await params;
@@ -17,6 +23,9 @@ export default async function AdminUserDetailPage({ params }) {
         },
       },
       creditCards: true,
+      loans: { orderBy: { createdAt: "desc" } },
+      savingsGoals: { orderBy: { createdAt: "desc" } },
+      investments: { orderBy: { createdAt: "desc" } },
     },
   });
 
@@ -64,6 +73,40 @@ export default async function AdminUserDetailPage({ params }) {
     currency: card.currency,
   }));
 
+  const loans = user.loans.map((loan) => ({
+    id: loan.id,
+    loanNumber: loan.loanNumber,
+    type: loan.type,
+    principal: Number(loan.principal),
+    balance: Number(loan.balance),
+    interestRate: Number(loan.interestRate),
+    termMonths: loan.termMonths,
+    monthlyPayment: Number(loan.monthlyPayment),
+    currency: loan.currency,
+    status: loan.status,
+  }));
+
+  const savingsGoals = user.savingsGoals.map((goal) => ({
+    id: goal.id,
+    name: goal.name,
+    category: goal.category,
+    targetAmount: Number(goal.targetAmount),
+    currentAmount: Number(goal.currentAmount),
+    currency: goal.currency,
+    targetDate: goal.targetDate,
+    status: goal.status,
+  }));
+
+  const investments = user.investments.map((inv) => ({
+    id: inv.id,
+    name: inv.name,
+    category: inv.category,
+    costBasis: Number(inv.costBasis),
+    currentValue: Number(inv.currentValue),
+    currency: inv.currency,
+    status: inv.status,
+  }));
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-navy">{user.name}</h1>
@@ -89,6 +132,39 @@ export default async function AdminUserDetailPage({ params }) {
               ))}
             </div>
           )}
+
+          <div className="mt-6 pt-6 border-t border-border">
+            <h2 className="text-lg font-semibold text-navy">Loans</h2>
+            <div className="mt-4">
+              {loans.map((loan) => (
+                <AdminLoanRow key={loan.id} loan={loan} />
+              ))}
+              {loans.length === 0 && <p className="text-sm text-text-secondary">No loans.</p>}
+            </div>
+            <AdminAddLoanForm userId={user.id} />
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-border">
+            <h2 className="text-lg font-semibold text-navy">Savings goals</h2>
+            <div className="mt-4">
+              {savingsGoals.map((goal) => (
+                <AdminSavingsGoalRow key={goal.id} goal={goal} />
+              ))}
+              {savingsGoals.length === 0 && <p className="text-sm text-text-secondary">No savings goals.</p>}
+            </div>
+            <AdminAddSavingsGoalForm userId={user.id} />
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-border">
+            <h2 className="text-lg font-semibold text-navy">Investments</h2>
+            <div className="mt-4">
+              {investments.map((inv) => (
+                <AdminInvestmentRow key={inv.id} investment={inv} />
+              ))}
+              {investments.length === 0 && <p className="text-sm text-text-secondary">No investments.</p>}
+            </div>
+            <AdminAddInvestmentForm userId={user.id} />
+          </div>
         </div>
       </div>
     </div>

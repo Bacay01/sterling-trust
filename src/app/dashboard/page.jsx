@@ -7,19 +7,25 @@ import MobileQuickActions from "@/components/MobileQuickActions";
 import MobileSnapshotCard from "@/components/MobileSnapshotCard";
 import MobileAccountCard from "@/components/MobileAccountCard";
 import MobileCreditCardCard from "@/components/MobileCreditCardCard";
+import MobileLoanCard from "@/components/MobileLoanCard";
+import MobileSavingsGoalCard from "@/components/MobileSavingsGoalCard";
+import MobileInvestmentCard from "@/components/MobileInvestmentCard";
 import BottomNav from "@/components/BottomNav";
 import AccountCard from "@/components/AccountCard";
 import CreditCardSummaryCard from "@/components/CreditCardSummaryCard";
+import LoanSummaryCard from "@/components/LoanSummaryCard";
+import SavingsGoalCard from "@/components/SavingsGoalCard";
+import InvestmentSummaryCard from "@/components/InvestmentSummaryCard";
 import SnapshotCard from "@/components/SnapshotCard";
 import QuickActionsCard from "@/components/QuickActionsCard";
 import RecentActivityCard from "@/components/RecentActivityCard";
 import LinkExternalAccountsCard from "@/components/LinkExternalAccountsCard";
 import OpenAccountSection from "@/components/OpenAccountSection";
 
-const CURRENCY_LOCALES = { TRY: "tr-TR", USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
+const CURRENCY_LOCALES = { USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
 
-function formatMoney(amount, currency = "TRY") {
-  const locale = CURRENCY_LOCALES[currency] || "tr-TR";
+function formatMoney(amount, currency = "USD") {
+  const locale = CURRENCY_LOCALES[currency] || "en-US";
   return new Intl.NumberFormat(locale, { style: "currency", currency }).format(Number(amount));
 }
 
@@ -38,7 +44,7 @@ function KebabIcon(props) {
 export default async function DashboardPage() {
   const session = await auth();
 
-  const [accounts, creditCards] = await Promise.all([
+  const [accounts, creditCards, loans, savingsGoals, investments] = await Promise.all([
     prisma.account.findMany({
       where: { userId: session.user.id },
       include: {
@@ -47,12 +53,50 @@ export default async function DashboardPage() {
       },
     }),
     prisma.creditCard.findMany({ where: { userId: session.user.id } }),
+    prisma.loan.findMany({ where: { userId: session.user.id }, orderBy: { createdAt: "desc" } }),
+    prisma.savingsGoal.findMany({ where: { userId: session.user.id }, orderBy: { createdAt: "desc" } }),
+    prisma.investment.findMany({ where: { userId: session.user.id }, orderBy: { createdAt: "desc" } }),
   ]);
 
   const checking = accounts.find((a) => a.type === "checking");
   const savings = accounts.find((a) => a.type === "savings");
   const card = creditCards[0];
   const frozenNotice = getFrozenNotice(accounts);
+
+  const plainLoans = loans.map((loan) => ({
+    id: loan.id,
+    loanNumber: loan.loanNumber,
+    type: loan.type,
+    principal: Number(loan.principal),
+    balance: Number(loan.balance),
+    interestRate: Number(loan.interestRate),
+    termMonths: loan.termMonths,
+    monthlyPayment: Number(loan.monthlyPayment),
+    currency: loan.currency,
+    status: loan.status,
+    nextPaymentDate: loan.nextPaymentDate,
+  }));
+
+  const plainSavingsGoals = savingsGoals.map((goal) => ({
+    id: goal.id,
+    name: goal.name,
+    category: goal.category,
+    targetAmount: Number(goal.targetAmount),
+    currentAmount: Number(goal.currentAmount),
+    currency: goal.currency,
+    targetDate: goal.targetDate,
+    status: goal.status,
+  }));
+
+  const plainInvestments = investments.map((inv) => ({
+    id: inv.id,
+    name: inv.name,
+    category: inv.category,
+    costBasis: Number(inv.costBasis),
+    currentValue: Number(inv.currentValue),
+    currency: inv.currency,
+    status: inv.status,
+  }));
 
   const accountIds = accounts.map((a) => a.id);
   const startOfMonth = new Date();
@@ -135,6 +179,9 @@ export default async function DashboardPage() {
           {checking && <MobileAccountCard type="checking" account={checking} />}
           {savings && <MobileAccountCard type="savings" account={savings} />}
           {card && <MobileCreditCardCard card={card} />}
+          {plainLoans.length > 0 && <MobileLoanCard loans={plainLoans} />}
+          {plainSavingsGoals.length > 0 && <MobileSavingsGoalCard goals={plainSavingsGoals} />}
+          {plainInvestments.length > 0 && <MobileInvestmentCard investments={plainInvestments} />}
         </div>
 
         <div className="mt-4 px-4">
@@ -173,6 +220,9 @@ export default async function DashboardPage() {
           {checking && <AccountCard type="checking" account={checking} />}
           {savings && <AccountCard type="savings" account={savings} />}
           {card && <CreditCardSummaryCard card={card} />}
+          {plainLoans.length > 0 && <LoanSummaryCard loans={plainLoans} />}
+          {plainSavingsGoals.length > 0 && <SavingsGoalCard goals={plainSavingsGoals} />}
+          {plainInvestments.length > 0 && <InvestmentSummaryCard investments={plainInvestments} />}
         </div>
 
         <div className="mt-6">

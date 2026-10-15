@@ -1,4 +1,4 @@
-const SUPPORTED_CURRENCIES = ["TRY", "USD", "GBP", "EUR"];
+const SUPPORTED_CURRENCIES = ["USD", "GBP", "EUR"];
 
 export async function getExchangeRate(from, to) {
   if (from === to) return 1;

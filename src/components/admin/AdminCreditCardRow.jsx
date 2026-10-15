@@ -3,12 +3,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const CURRENCY_LOCALES = { TRY: "tr-TR", USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
-const CURRENCY_SYMBOLS = { TRY: "₺", USD: "$", GBP: "£", EUR: "€" };
-const CURRENCIES = ["TRY", "USD", "GBP", "EUR"];
+const CURRENCY_LOCALES = { USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
+const CURRENCY_SYMBOLS = { USD: "$", GBP: "£", EUR: "€" };
+const CURRENCIES = ["USD", "GBP", "EUR"];
 
-function formatMoney(amount, currency = "TRY") {
-  const locale = CURRENCY_LOCALES[currency] || "tr-TR";
+function formatMoney(amount, currency = "USD") {
+  const locale = CURRENCY_LOCALES[currency] || "en-US";
   return new Intl.NumberFormat(locale, { style: "currency", currency }).format(Number(amount));
 }
 
@@ -16,7 +16,7 @@ export default function AdminCreditCardRow({ card }) {
   const router = useRouter();
   const [balance, setBalance] = useState(card.balance.toString());
   const [creditLimit, setCreditLimit] = useState(card.creditLimit.toString());
-  const [currency, setCurrency] = useState(card.currency || "TRY");
+  const [currency, setCurrency] = useState(card.currency || "USD");
   const [saving, setSaving] = useState(false);
   const [converting, setConverting] = useState(false);
   const [status, setStatus] = useState(null);
@@ -24,7 +24,7 @@ export default function AdminCreditCardRow({ card }) {
   useEffect(() => {
     setBalance(card.balance.toString());
     setCreditLimit(card.creditLimit.toString());
-    setCurrency(card.currency || "TRY");
+    setCurrency(card.currency || "USD");
   }, [card.balance, card.creditLimit, card.currency]);
 
   async function patch(body) {
@@ -67,13 +67,13 @@ export default function AdminCreditCardRow({ card }) {
     }
   }
 
-  const currencyChanged = currency !== (card.currency || "TRY");
+  const currencyChanged = currency !== (card.currency || "USD");
 
   return (
     <div className="mt-3 border border-border rounded-lg p-4">
       <p className="text-sm font-medium text-text">•••• {card.cardNumber.slice(-4)}</p>
       <p className="text-xs text-text-secondary mt-1">
-        {formatMoney(card.balance, card.currency || "TRY")} balance of {formatMoney(card.creditLimit, card.currency || "TRY")} limit
+        {formatMoney(card.balance, card.currency || "USD")} balance of {formatMoney(card.creditLimit, card.currency || "USD")} limit
       </p>
 
       {status && (

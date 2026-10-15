@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AdminTransactionHistory from "./AdminTransactionHistory";
 
-const CURRENCY_LOCALES = { TRY: "tr-TR", USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
-const CURRENCY_SYMBOLS = { TRY: "₺", USD: "$", GBP: "£", EUR: "€" };
-const CURRENCIES = ["TRY", "USD", "GBP", "EUR"];
+const CURRENCY_LOCALES = { USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
+const CURRENCY_SYMBOLS = { USD: "$", GBP: "£", EUR: "€" };
+const CURRENCIES = ["USD", "GBP", "EUR"];
 
-function formatMoney(amount, currency = "TRY") {
-  const locale = CURRENCY_LOCALES[currency] || "tr-TR";
+function formatMoney(amount, currency = "USD") {
+  const locale = CURRENCY_LOCALES[currency] || "en-US";
   return new Intl.NumberFormat(locale, { style: "currency", currency }).format(Number(amount));
 }
 
@@ -19,7 +19,7 @@ const DEFAULT_FROZEN_MESSAGE = "This account has been frozen. Please contact sup
 export default function AdminAccountRow({ account }) {
   const router = useRouter();
   const [balance, setBalance] = useState(account.balance.toString());
-  const [currency, setCurrency] = useState(account.currency || "TRY");
+  const [currency, setCurrency] = useState(account.currency || "USD");
   const [reason, setReason] = useState(account.frozenReason || "");
   const [saving, setSaving] = useState(false);
   const [converting, setConverting] = useState(false);
@@ -29,7 +29,7 @@ export default function AdminAccountRow({ account }) {
 
   useEffect(() => {
     setBalance(account.balance.toString());
-    setCurrency(account.currency || "TRY");
+    setCurrency(account.currency || "USD");
   }, [account.balance, account.currency]);
 
   async function patch(body) {
@@ -114,7 +114,7 @@ export default function AdminAccountRow({ account }) {
     }
   }
 
-  const currencyChanged = currency !== (account.currency || "TRY");
+  const currencyChanged = currency !== (account.currency || "USD");
 
   return (
     <div className="border border-border rounded-lg p-4">
@@ -126,7 +126,7 @@ export default function AdminAccountRow({ account }) {
       </div>
 
       <p className="mt-1 text-xs text-text-secondary">
-        Current balance: {formatMoney(account.balance, account.currency || "TRY")}
+        Current balance: {formatMoney(account.balance, account.currency || "USD")}
       </p>
 
       {status && (

@@ -1,7 +1,7 @@
-const CURRENCY_LOCALES = { TRY: "tr-TR", USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
+const CURRENCY_LOCALES = { USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
 
-function formatMoney(amount, currency = "TRY") {
-  const locale = CURRENCY_LOCALES[currency] || "tr-TR";
+function formatMoney(amount, currency = "USD") {
+  const locale = CURRENCY_LOCALES[currency] || "en-US";
   return new Intl.NumberFormat(locale, { style: "currency", currency }).format(Number(amount));
 }
 
@@ -26,7 +26,7 @@ export default function MobileAccountCard({ type, account }) {
       <div className="px-5 py-4">
         <button className="w-full flex items-center justify-between text-[17px] font-medium text-text">
           <span>
-            Anadolu-Bank {label} •••• {account.accountNumber.slice(-4)}
+            Sterling Trust {label} •••• {account.accountNumber.slice(-4)}
           </span>
           <ChevronRight className="w-4 h-4 text-text-secondary shrink-0 ml-2" />
         </button>

@@ -1,7 +1,7 @@
-const CURRENCY_LOCALES = { TRY: "tr-TR", USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
+const CURRENCY_LOCALES = { USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
 
-function formatMoney(amount, currency = "TRY") {
-  const locale = CURRENCY_LOCALES[currency] || "tr-TR";
+function formatMoney(amount, currency = "USD") {
+  const locale = CURRENCY_LOCALES[currency] || "en-US";
   return new Intl.NumberFormat(locale, { style: "currency", currency }).format(Number(amount));
 }
 
@@ -16,7 +16,7 @@ export default function CreditCardSummaryCard({ card }) {
 
       <div className="px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <p className="text-[17px] font-medium text-text">Anadolu-Bank Credit Card</p>
+          <p className="text-[17px] font-medium text-text">Sterling Trust Credit Card</p>
           <p className="text-[14px] text-text-secondary mt-0.5">•••• {card.cardNumber.slice(-4)}</p>
         </div>
         <div className="sm:text-right">

@@ -1,14 +1,14 @@
 import Link from "next/link";
 
-const CURRENCY_LOCALES = { TRY: "tr-TR", USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
+const CURRENCY_LOCALES = { USD: "en-US", GBP: "en-GB", EUR: "de-DE" };
 
-function formatMoney(amount, currency = "TRY") {
-  const locale = CURRENCY_LOCALES[currency] || "tr-TR";
+function formatMoney(amount, currency = "USD") {
+  const locale = CURRENCY_LOCALES[currency] || "en-US";
   return new Intl.NumberFormat(locale, { style: "currency", currency }).format(Number(amount));
 }
 
 function formatDate(date) {
-  return new Date(date).toLocaleDateString("tr-TR", { month: "short", day: "numeric" });
+  return new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 export default function RecentActivityCard({ transactions, title = "Recent activity", viewAllHref }) {
