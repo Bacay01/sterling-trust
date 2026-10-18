@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import PasswordInput from "@/components/PasswordInput";
-import SterlingTrustLogo from "@/components/SterlingTrustLogo";
+import SterlingTrustBadge from "@/components/SterlingTrustBadge";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -55,9 +55,8 @@ export default function LoginPage() {
       </div>
 
       <div className="flex-1 flex flex-col justify-center px-6 pt-14 pb-8 md:items-center md:text-center md:pt-20">
-        <div className="flex items-center gap-2 text-white">
-          <span className="font-bold text-3xl tracking-tight">Sterling Trust</span>
-          <SterlingTrustLogo className="w-8 h-8" />
+        <div className="flex items-center text-white">
+          <SterlingTrustBadge className="h-10" />
         </div>
         <p className="mt-3 text-white/90 text-lg max-w-xs md:max-w-sm">
           Build a stronger financial future with Sterling Trust.

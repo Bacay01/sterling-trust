@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function AdminLoginPage() {
     <main className="min-h-screen flex items-center justify-center bg-navy">
       <form onSubmit={handleSubmit} className="w-full max-w-sm bg-surface p-8 rounded-lg shadow">
         <div className="flex items-center gap-2 mb-1">
-          <span className="font-bold text-lg text-navy">Sterling Trust</span>
+          <Image src="/sterling-trust-wordmark.png" alt="Sterling Trust" width={160} height={53} className="h-6 w-auto" />
           <span className="text-xs font-bold uppercase tracking-wide bg-danger text-white px-2 py-0.5 rounded">
             Admin
           </span>

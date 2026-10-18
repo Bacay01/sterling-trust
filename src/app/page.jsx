@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
+import SterlingTrustBadge from "@/components/SterlingTrustBadge";
 
 export default async function LandingPage() {
   const session = await auth();
@@ -38,9 +39,8 @@ export default async function LandingPage() {
 
       {/* Top nav */}
       <header className="max-w-6xl mx-auto flex items-center justify-between px-6 py-6">
-        <div className="flex items-center gap-2">
-          <Image src="/logo-blue.png" alt="Sterling Trust logo" width={32} height={32} />
-          <span className="font-semibold text-navy">Sterling Trust</span>
+        <div className="flex items-center">
+          <Image src="/sterling-trust-wordmark.png" alt="Sterling Trust" width={160} height={53} className="h-7 w-auto" />
         </div>
         <nav className="hidden md:flex items-center gap-1 bg-surface border border-border rounded-full px-2 py-2 shadow-sm">
           <a href="#features" className="px-4 py-1.5 text-sm text-text-secondary hover:text-navy rounded-full">Features</a>
@@ -193,9 +193,8 @@ export default async function LandingPage() {
       <footer className="bg-navy text-white/80 mt-10">
         <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-4 gap-10">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <Image src="/logo-white.png" alt="Sterling Trust logo" width={28} height={28} />
-              <span className="font-semibold text-white">Sterling Trust</span>
+            <div className="flex items-center mb-3">
+              <SterlingTrustBadge className="h-6" />
             </div>
             <p className="text-sm text-white/50">Digital banking built for modern America.</p>
           </div>

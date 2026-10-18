@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { signOut } from "next-auth/react";
-import SterlingTrustLogo from "./SterlingTrustLogo";
 
 function BellIcon(props) {
   return (
@@ -30,9 +30,8 @@ export default function MobileHeader() {
           <BellIcon className="w-5 h-5" />
         </button>
 
-        <Link href="/dashboard" className="flex items-center gap-1.5 text-primary">
-          <span className="font-bold text-base tracking-tight">Sterling Trust</span>
-          <SterlingTrustLogo className="w-5 h-5" />
+        <Link href="/dashboard" className="flex items-center bg-white rounded-lg px-3 py-1.5 shadow-sm border border-border/60">
+          <Image src="/sterling-trust-wordmark.png" alt="Sterling Trust" width={160} height={53} className="h-6 w-auto" priority />
         </Link>
 
         <button onClick={() => signOut({ callbackUrl: "/login" })} className="text-primary" aria-label="Profile / sign out">

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import SterlingTrustBadge from "../SterlingTrustBadge";
 
 const links = [
   { href: "/admin", label: "Overview" },
@@ -21,7 +22,7 @@ export default function AdminHeader({ adminName }) {
     <header className="bg-navy text-white">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="font-bold text-lg tracking-tight">Sterling Trust</span>
+          <SterlingTrustBadge className="h-6" />
           <span className="text-xs font-bold uppercase tracking-wide bg-danger text-white px-2 py-0.5 rounded">
             Admin
           </span>
